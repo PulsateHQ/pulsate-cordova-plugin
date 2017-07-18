@@ -14,8 +14,44 @@ static NSDictionary *launchOptions;
     
 - (void)finishLaunching:(NSNotification *)notification{
     launchOptions = notification.userInfo;
-}
     
+}
+
+
+- (void)unauthorizedAction:(NSString *)action {
+    if(self.unauthorizedCallbackId){
+        CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:action];
+        [result setKeepCallbackAsBool:YES];
+        [self.commandDelegate sendPluginResult:result callbackId:self.unauthorizedCallbackId];
+    }
+}
+
+- (void)badgeUpdated:(NSInteger)badgeNumber {
+    if(self.badgeUpdatedCallbackId){
+        CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsNSInteger:badgeNumber];
+        [result setKeepCallbackAsBool:YES];
+        [self.commandDelegate sendPluginResult:result callbackId:self.badgeUpdatedCallbackId];
+    }
+}
+
+- (void)badgeDecrementBy:(NSInteger)badgeDecrement totalCount:(NSInteger)badgeNumber {
+    if(self.badgeDecrementByCallbackId){
+        NSDictionary *response = @{@"totalCount" : @(badgeNumber), @"badgeDecrement": @(badgeDecrement)};
+        CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:response];
+        [result setKeepCallbackAsBool:YES];
+        [self.commandDelegate sendPluginResult:result callbackId:self.badgeDecrementByCallbackId];
+    }
+}
+
+- (void)badgeIncrementBy:(NSInteger)badgeIncrement totalCount:(NSInteger)badgeNumber {
+    if(self.badgeIncrementByCallbackId){
+        NSDictionary *response = @{@"totalCount" : @(badgeNumber), @"badgeIncrement": @(badgeIncrement)};
+        CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:response];
+        [result setKeepCallbackAsBool:YES];
+        [self.commandDelegate sendPluginResult:result callbackId:self.badgeIncrementByCallbackId];
+    }
+}
+
 - (void)startPulsateSession:(CDVInvokedUrlCommand *)command {
     [pulsateManager startPulsateSession];
 }
@@ -172,13 +208,80 @@ static NSDictionary *launchOptions;
     if(gender)
         [pulsateManager updateGender:[gender intValue]];
 }
+
+- (void)setAuthorizationDataCustom:(CDVInvokedUrlCommand *)command{
+    NSError *error;
+    PULAuthorizationData *data = [[PULAuthorizationData alloc] initWithAppId:[command argumentAtIndex:0] andAppKey:[command argumentAtIndex:1]  validationError:&error];
     
+    NSNumber *location = [command argumentAtIndex:2];
+    NSNumber *push = [command argumentAtIndex:3];
+    NSNumber *delegate = [command argumentAtIndex:4];
+    
+    if(!error)
+        pulsateManager = [PULPulsateFactory getInstanceWithAuthorizationData:data withLocationEnabled:[location boolValue] withPushEnabled:[push boolValue] withLaunchOptions:launchOptions withPulsateAppDelegate:[delegate boolValue] error:&error];
+    
+    pulsateManager.unauthorizedDelegate = self;
+    pulsateManager.badgeDelegate = self;
+    
+    launchOptions = nil;
+}
+
 - (void)setAuthorizationData:(CDVInvokedUrlCommand *)command{
     NSError *error;
     PULAuthorizationData *data = [[PULAuthorizationData alloc] initWithAppId:[command argumentAtIndex:0] andAppKey:[command argumentAtIndex:1]  validationError:&error];
     if(!error)
-        pulsateManager = [PULPulsateFactory getInstanceWithAuthorizationData:data withLocationEnabled:YES withPushEnabled:YES withLaunchOptions:launchOptions error:&error];
+        pulsateManager = [PULPulsateFactory getInstanceWithAuthorizationData:data withLocationEnabled:YES withPushEnabled:YES withLaunchOptions:launchOptions withPulsateAppDelegate:YES error:&error];
+    
+    pulsateManager.unauthorizedDelegate = self;
+    pulsateManager.badgeDelegate = self;
+    
     launchOptions = nil;
+}
+
+- (void)getDeviceGuid:(CDVInvokedUrlCommand *)command{
+    self.guidCallbackId = command.callbackId;
+    NSString *guid = [pulsateManager getDeviceGuid];
+    
+    CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:guid];
+    [result setKeepCallbackAsBool:YES];
+    [self.commandDelegate sendPluginResult:result callbackId:self.guidCallbackId];
+    
+}
+
+- (void)getBadgeCount:(CDVInvokedUrlCommand *)command{
+    [pulsateManager getBadgeCount];
+}
+
+- (void)disablePushNotification:(CDVInvokedUrlCommand *)command{
+    NSNumber *enabled = [command argumentAtIndex:0];
+    if(enabled)
+        [pulsateManager disablePushNotification:[enabled boolValue]];
+}
+
+- (void)showLastInAppNotification:(CDVInvokedUrlCommand *)command{
+    [pulsateManager showLastInAppNotification];
+}
+
+- (void)enableInAppNotification:(CDVInvokedUrlCommand *)command{
+    NSNumber *enabled = [command argumentAtIndex:0];
+    if(enabled)
+        [pulsateManager enableInAppNotification:[enabled boolValue]];
+}
+
+- (void)onUnauthorizedAction:(CDVInvokedUrlCommand *)command{
+    self.unauthorizedCallbackId = command.callbackId;
+}
+
+- (void)onBadgeUpdated:(CDVInvokedUrlCommand *)command{
+    self.badgeUpdatedCallbackId = command.callbackId;
+}
+
+- (void)onBadgeDecrementBy:(CDVInvokedUrlCommand *)command{
+    self.badgeDecrementByCallbackId = command.callbackId;
+}
+
+- (void)onBadgeIncrementBy:(CDVInvokedUrlCommand *)command{
+    self.badgeIncrementByCallbackId = command.callbackId;
 }
     
 @end

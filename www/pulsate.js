@@ -12,7 +12,9 @@ Pulsate.prototype.PULPrivacyLevelUnsubscribed = 1;
 Pulsate.prototype.setAuthorizationData = function (APP_ID, APP_KEY, GCM_APP_ID) {
 	cordova.exec(null, null, "PulsatePlugin", "setAuthorizationData", [APP_ID, APP_KEY, GCM_APP_ID]);
 }
-
+Pulsate.prototype.setAuthorizationDataCustom = function (APP_ID, APP_KEY, PUSH, LOCATION, DELEGATE) {
+    cordova.exec(null, null, "PulsatePlugin", "setAuthorizationDataCustom", [APP_ID, APP_KEY, PUSH, LOCATION, DELEGATE]);
+}
 Pulsate.prototype.startPulsateSession = function () {
 	cordova.exec(null, null, "PulsatePlugin", "startPulsateSession", []);
 }
@@ -109,4 +111,42 @@ Pulsate.prototype.updateGender = function (gender) {
 	cordova.exec(null, null, "PulsatePlugin", "updateGender", [gender]);
 }
 
+Pulsate.prototype.getDeviceGuid = function (result) {
+    cordova.exec(result, null, "PulsatePlugin", "getDeviceGuid", []);
+}
+               
+Pulsate.prototype.getBadgeCount = function () {
+    cordova.exec(null, null, "PulsatePlugin", "getBadgeCount", []);
+}
+               
+Pulsate.prototype.disablePushNotification = function (enabled) {
+    cordova.exec(null, null, "PulsatePlugin", "disablePushNotification", [enabled]);
+}
+
+Pulsate.prototype.showLastInAppNotification = function () {
+    cordova.exec(null, null, "PulsatePlugin", "showLastInAppNotification", []);
+}
+
+Pulsate.prototype.enableInAppNotification = function (enabled) {
+    cordova.exec(null, null, "PulsatePlugin", "enableInAppNotification", [enabled]);
+}
+
+Pulsate.prototype.onUnauthorizedAction = function (result) {
+    cordova.exec(result, null, "PulsatePlugin", "onUnauthorizedAction", []);
+}
+
+Pulsate.prototype.onBadgeUpdated = function (result) {
+    cordova.exec(result, null, "PulsatePlugin", "onBadgeUpdated", []);
+}
+               
+Pulsate.prototype.onBadgeDecrementBy = function (result) {
+    cordova.exec(result, null, "PulsatePlugin", "onBadgeDecrementBy", []);
+}
+               
+Pulsate.prototype.onBadgeIncrementBy = function (result) {
+    cordova.exec(result, null, "PulsatePlugin", "onBadgeIncrementBy", []);
+}
+
+
 module.exports = new Pulsate();
+

@@ -1,6 +1,15 @@
 #import <Cordova/CDVPlugin.h>
+#import <PULPulsate/PULPulsate.h>
 
-@interface PulsatePlugin : CDVPlugin
+
+@interface PulsatePlugin : CDVPlugin <PULPulsateBadgeDelegate, PULPulsateUnauthorizedManagerDelegate>
+
+@property (nonatomic, strong) NSString* guidCallbackId;
+@property (nonatomic, strong) NSString* unauthorizedCallbackId;
+@property (nonatomic, strong) NSString* badgeUpdatedCallbackId;
+@property (nonatomic, strong) NSString* badgeDecrementByCallbackId;
+@property (nonatomic, strong) NSString* badgeIncrementByCallbackId;
+
 
 
 - (void)startPulsateSession:(CDVInvokedUrlCommand *)command;
@@ -28,6 +37,19 @@
 - (void)updateAge:(CDVInvokedUrlCommand *)command;
 - (void)updateGender:(CDVInvokedUrlCommand *)command;
 - (void)setAuthorizationData:(CDVInvokedUrlCommand *)command;
+- (void)setAuthorizationDataCustom:(CDVInvokedUrlCommand *)command;
+
+- (void)getDeviceGuid:(CDVInvokedUrlCommand *)command;
+- (void)getBadgeCount:(CDVInvokedUrlCommand *)command;
+- (void)disablePushNotification:(CDVInvokedUrlCommand *)command;
+- (void)showLastInAppNotification:(CDVInvokedUrlCommand *)command;
+- (void)enableInAppNotification:(CDVInvokedUrlCommand *)command;
+
+- (void)onUnauthorizedAction:(CDVInvokedUrlCommand *)command;
+- (void)onBadgeUpdated:(CDVInvokedUrlCommand *)command;
+- (void)onBadgeDecrementBy:(CDVInvokedUrlCommand *)command;
+- (void)onBadgeIncrementBy:(CDVInvokedUrlCommand *)command;
+
 
 
 @end

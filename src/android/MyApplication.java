@@ -8,9 +8,11 @@ import android.support.multidex.MultiDex;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 
+
+import com.pulsatehq.internal.Pulsate;
+import com.pulsatehq.internal.PulsateApp;
 import com.pulsatehq.external.pulsate.factory.PulsateFactory;
 import com.pulsatehq.external.pulsate.manager.IPulsateManager;
-import com.pulsatehq.internal.PulsateApp;
 
 /**
  * Created by adrian on 29/10/16.
@@ -65,6 +67,7 @@ public class MyApplication extends PulsateApp {
     @Override
     public void onCreate() {
         super.onCreate();
+        Pulsate.install(this);
         getPulsate();
         registerActivityLifecycleCallbacks(activityLifecycleCallbacks);
     }

@@ -13,6 +13,26 @@
 
 @interface PULPulsateFactory : NSObject
 
++(void)setBaseUrl:(NSString*)baseUrl;
+
++(NSString*)getBaseUrl;
+
+/**
+ *  Creates pulsate manager instance with given API keys. If an instance already exists
+ *  it returns it instead.
+ *
+ *  @param authorizationData    authorization data
+ *  @param locationEnabled      hould location be enabled at start - this will show the location prompt on start of the session
+ *  @param pushEnabled          should push be enabled at start - this will show the notifications prompt on start of the
+ *                              session
+ *  @param isPulsateAppDelegate should Pulsate be the main App Delegate - by default Pulsate is the AppDelegate, if you set 
+ *                              Pulsate to not be the AppDelegate you will need to redirect all needed callbacks to Pulsate
+ *  @param error                error
+ *
+ *  @return returns Pulsate Manager instance
+ */
++(PULPulsateManager*)getInstanceWithAuthorizationData:(PULAuthorizationData*)authorizationData withLocationEnabled:(BOOL)locationEnabled withPushEnabled:(BOOL)pushEnabled withLaunchOptions:(NSDictionary*)launchOptions withPulsateAppDelegate:(BOOL)isPulsateAppDelegate error:(NSError**)error;
+
 /**
  *  Creates pulsate manager instance with given API keys. If an instance already exists
  *  it returns it instead.

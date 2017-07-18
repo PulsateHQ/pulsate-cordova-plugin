@@ -1,18 +1,23 @@
 //
 //  PULPulsateManager.h
-//  PULPulsate 2.8.6
+//  PULPulsate 2.10.4
 //
 //  Created by Michal on 04/12/2014.
 //  Copyright (c) 2014 Pulsatehq. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
-#import "PULPulsateManagerDelegate.h"
+#import "PULPulsateUnauthorizedManagerDelegate.h"
+#import "PULPulsateBadgeDelegate.h"
 #import <UIKit/UIKit.h>
+#import <UserNotifications/UserNotifications.h>
 
 @class UINavigationController;
 
 @interface PULPulsateManager : NSObject
+
+@property (nonatomic, retain) IBOutlet id<PULPulsateUnauthorizedManagerDelegate> unauthorizedDelegate;
+@property (nonatomic, retain) IBOutlet id<PULPulsateBadgeDelegate> badgeDelegate;
 
 typedef NS_ENUM(NSUInteger, PULUserGender){
     PULMale,
@@ -37,6 +42,11 @@ typedef NS_ENUM(NSUInteger, PULPrivacyLevel){
 -(void)startPulsateSessionForAlias:(nonnull NSString*)alias;
 
 -(void)logout;
+
+/**
+ *  Returns the Device Guid that Pulsate uses to identify users.
+ */
+-(nonnull NSString*)getDeviceGuid;
 
 /**
  *  Updates the user's first name. Gets updated when entering background.
@@ -72,6 +82,13 @@ typedef NS_ENUM(NSUInteger, PULPrivacyLevel){
  *  @param gender user's gender
  */
 -(void)updateGender:(PULUserGender)gender;
+
+/**
+ *  Disables or Enables push notifications for Pulsate
+ *
+ *  @param disable user's push notification preference
+ */
+-(void)disablePushNotification:(BOOL)disable;
 
 /**
  *  Sets user's privacy settings.
@@ -214,25 +231,40 @@ typedef NS_ENUM(NSUInteger, PULPrivacyLevel){
 -(BOOL)isUserAuthorized;
 
 /**
+ *  Enables or Disables In-App Notifications. Default - YES.
+ *
+ */
+-(void)enableInAppNotification:(BOOL)enabled;
+
+/**
  *  Set if user is authorized or not. The default is YES.
  *
  */
 -(void)setUserAuthorized:(BOOL)authorized;
 
 /**
- *  Set Pulsate Manager Delegate. Returns callbacks for: onUnauthorizedAction
+ *  Sends a request to the server to get the Pulsate badge count.
+ *  The badge count will be returned in the PULPulsateBadgeDelegate badgeUpdated callback.
  *
  */
--(void)setPulsateManagerDelegate:(nonnull PULPulsateManagerDelegate*)pulsateManagerDelegate;
+-(void)getBadgeCount;
 
 /**
- *  Gets the Pulsate Manager Delegate
+ *  Shows the last in app notification. In App Notification need to be enabled.
+ *  To enable in app notifications use enableInAppNotification(BOOL).
  */
--(nullable PULPulsateManagerDelegate*)getPulsateManagerDelegate;
+-(void)showLastInAppNotification;
 
 /**
  *  Shows the last blocked message or card. User must be authorized.
- *
+ *  To authorize a user use setUserAuthorized(BOOL).
  */
 -(void)showLastUnauthorizedMessage;
+
+/**
+ *  Shows the last in app notification. In App Notification need to be enabled.
+ *  To enable in app notifications use enableInAppNotification(BOOL).
+ */
+-(id<UIApplicationDelegate, UNUserNotificationCenterDelegate>)getPulsateSystemManager;
+
 @end

@@ -168,9 +168,20 @@ public class PulsatePlugin extends CordovaPlugin {
             manager.setAuthorizationData(data);
             callbackContext.success();
             return true;
+        } else if (action.equals("enableInAppNotification")) {
+            manager.enableInAppNotification(args.getBoolean(0));
+            callbackContext.success();
+            return true;
+        } else if (action.equals("disablePushNotification")) {
+            manager.disablePushNotification(args.getBoolean(0));
+            callbackContext.success();
+            return true;
+        }else if (action.equals("showLastInAppNotification")) {
+            manager.showLastInAppNotification();
+            callbackContext.success();
+            return true;
         }
-        
-        
+    
         
         return false;
     }
