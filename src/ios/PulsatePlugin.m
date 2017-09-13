@@ -53,17 +53,60 @@ static NSDictionary *launchOptions;
 }
 
 - (void)startPulsateSession:(CDVInvokedUrlCommand *)command {
-    [pulsateManager startPulsateSession];
+    self.sessionStartCallbackId = command.callbackId;
+    [pulsateManager startPulsateSession:^(BOOL success, NSError* error) {
+        if (success)
+        {
+            CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"sessionStarted"];
+            [result setKeepCallbackAsBool:YES];
+            [self.commandDelegate sendPluginResult:result callbackId:self.sessionStartCallbackId];
+        }
+        else
+        {
+            CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"sessionFailed"];
+            [result setKeepCallbackAsBool:YES];
+            [self.commandDelegate sendPluginResult:result callbackId:self.sessionStartCallbackId];
+        }
+    }];
 }
-    
+
 - (void)startPulsateSessionForAlias:(CDVInvokedUrlCommand *)command {
+    self.sessionStartCallbackId = command.callbackId;
     NSString *alias = [command argumentAtIndex:0];
-    if(alias)
-        [pulsateManager startPulsateSessionForAlias:alias];
+    if(alias) {
+        [pulsateManager startPulsateSessionForAlias:alias withListener:^(BOOL success, NSError* error) {
+            if (success)
+            {
+                CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"sessionStarted"];
+                [result setKeepCallbackAsBool:YES];
+                [self.commandDelegate sendPluginResult:result callbackId:self.sessionStartCallbackId];
+            }
+            else
+            {
+                CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"sessionFailed"];
+                [result setKeepCallbackAsBool:YES];
+                [self.commandDelegate sendPluginResult:result callbackId:self.sessionStartCallbackId];
+            }
+        }];
+    }
 }
-    
+
 - (void)logout:(CDVInvokedUrlCommand *)command{
-    [pulsateManager logout];
+    self.logoutCallbackId = command.callbackId;
+    [pulsateManager logout:^(BOOL success, NSError* error) {
+        if (success)
+        {
+            CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"logoutSucess"];
+            [result setKeepCallbackAsBool:YES];
+            [self.commandDelegate sendPluginResult:result callbackId:self.logoutCallbackId];
+        }
+        else
+        {
+            CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"logoutFailed"];
+            [result setKeepCallbackAsBool:YES];
+            [self.commandDelegate sendPluginResult:result callbackId:self.logoutCallbackId];
+        }
+    }];
 }
     
 - (void)setUserAuthorized:(CDVInvokedUrlCommand *)command{

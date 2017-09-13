@@ -4,6 +4,8 @@
 
 @interface PulsatePlugin : CDVPlugin <PULPulsateBadgeDelegate, PULPulsateUnauthorizedManagerDelegate>
 
+@property (nonatomic, strong) NSString* sessionStartCallbackId;
+@property (nonatomic, strong) NSString* logoutCallbackId;
 @property (nonatomic, strong) NSString* guidCallbackId;
 @property (nonatomic, strong) NSString* unauthorizedCallbackId;
 @property (nonatomic, strong) NSString* badgeUpdatedCallbackId;

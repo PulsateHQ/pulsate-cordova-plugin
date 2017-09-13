@@ -28,21 +28,43 @@ public class PulsatePlugin extends CordovaPlugin {
         IPulsateManager manager = ((MyApplication) this.cordova.getActivity().getApplication()).getPulsate();
         
         if (action.equals("startPulsateSession")) {
-            manager.startPulsateSession();
-            callbackContext.success();
-            return true;
-        } else if (action.equals("startPulsateSessionForAlias")) {
-            manager.startPulsateSessionForAlias(args.getString(0));
-            callbackContext.success();
-            return true;
-        } else if (action.equals("logout")) {
-            manager.logoutCurrentAlias(new IPulsateLogoutCurrentUserListener() {
+            manager.startPulsateSession(new IPulsateRequestListener() {
                 @Override
-                public void onLogout() {
-                    
+                public void onSucess() {
+                    callbackContext.success();
+                }
+                
+                @Override
+                public void onError(Throwable e) {
+                    callbackContext.error(e.getMessage());
                 }
             });
-            callbackContext.success();
+            return true;
+        } else if (action.equals("startPulsateSessionForAlias")) {
+            manager.startPulsateSessionForAlias(args.getString(0), new IPulsateRequestListener() {
+                @Override
+                public void onSucess() {
+                    callbackContext.success();
+                }
+                
+                @Override
+                public void onError(Throwable e) {
+                    callbackContext.error(e.getMessage());
+                }
+            });
+            return true;
+        } else if (action.equals("logout")) {
+            manager.logoutCurrentAlias(new IPulsateRequestListener() {
+                @Override
+                public void onSucess() {
+                    callbackContext.success();
+                }
+                
+                @Override
+                public void onError(Throwable e) {
+                    callbackContext.error(e.getMessage());
+                }
+            });
             return true;
         } else if (action.equals("setUserAuthorized")) {
             manager.setUserAuthorized(args.getBoolean(0));

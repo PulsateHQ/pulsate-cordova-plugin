@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" id="pulsatehq.PULPulsate"  xmlns:android="http://schemas.android.com/apk/res/android" version="1.0.1">
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" id="pulsatehq.PULPulsate"  xmlns:android="http://schemas.android.com/apk/res/android" version="1.1.0">
     <name>Pulsate</name>
     <description>Pulsate Plugin</description>
     <license>Apache 2.0</license>
@@ -91,7 +91,7 @@
         <hook type="after_plugin_add" src="src/android/app_name.js" />
 
         <framework src="com.android.support:multidex:1.0.1" />
-        <framework src="com.pulsatehq.sdk:PulsateSdk:2.9.15" />
+        <framework src="com.pulsatehq.sdk:PulsateSdk:2.10.0" />
 
 
 

@@ -1,6 +1,6 @@
 //
 //  PULPulsateManager.h
-//  PULPulsate 2.10.4
+//  PULPulsate 2.11.0
 //
 //  Created by Michal on 04/12/2014.
 //  Copyright (c) 2014 Pulsatehq. All rights reserved.
@@ -19,6 +19,7 @@
 @property (nonatomic, retain) IBOutlet id<PULPulsateUnauthorizedManagerDelegate> unauthorizedDelegate;
 @property (nonatomic, retain) IBOutlet id<PULPulsateBadgeDelegate> badgeDelegate;
 
+typedef void(^RequestListener)(BOOL success, NSError* error);
 typedef NS_ENUM(NSUInteger, PULUserGender){
     PULMale,
     PULFemale
@@ -33,15 +34,13 @@ typedef NS_ENUM(NSUInteger, PULPrivacyLevel){
  *  Starts Pulsate session lifecycle. If location and push were set as enabled it'll show the prompts to the user.
  *  Session starts when the app enters foreground and ends when it goes to background.
  */
--(void)startPulsateSession;
-
+-(void)startPulsateSession:(nullable RequestListener)listener;
 /**
  *  Starts Pulsate session lifecycle for given user (alias). If location and push were set as enabled it'll show the prompts to the user.
  *  Session starts when the app enters foreground and ends when it goes to background.
  */
--(void)startPulsateSessionForAlias:(nonnull NSString*)alias;
-
--(void)logout;
+-(void)startPulsateSessionForAlias:(nonnull NSString*)alias withListener:(nullable RequestListener)listener;
+-(void)logout:(RequestListener)listener;
 
 /**
  *  Returns the Device Guid that Pulsate uses to identify users.
