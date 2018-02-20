@@ -1,0 +1,29 @@
+{
+  "name": "pulsatehq.PULPulsate",
+  "version": "1.2.0",
+  "description": "Pulsate Plugin",
+  "cordova": {
+    "id": "pulsatehq.PULPulsate",
+    "platforms": [
+      "ios",
+      "android"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PulsateHQ/pulsate-cordova-plugin.git"
+  },
+  "keywords": [
+    "pulsate",
+    "plugin",
+    "ecosystem:cordova",
+    "cordova-ios",
+    "cordova-android"
+  ],
+  "author": "Pulsate",
+  "license": "Apache 2.0",
+  "bugs": {
+    "url": "https://github.com/PulsateHQ/pulsate-cordova-plugin/issues"
+  },
+  "homepage": "https://github.com/PulsateHQ/pulsate-cordova-plugin#readme"
+}
