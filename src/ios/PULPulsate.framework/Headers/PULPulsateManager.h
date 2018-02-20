@@ -1,6 +1,6 @@
 //
 //  PULPulsateManager.h
-//  PULPulsate 2.11.0
+//  PULPulsate 2.13.0
 //
 //  Created by Michal on 04/12/2014.
 //  Copyright (c) 2014 Pulsatehq. All rights reserved.
@@ -16,10 +16,10 @@
 
 @interface PULPulsateManager : NSObject
 
-@property (nonatomic, retain) IBOutlet id<PULPulsateUnauthorizedManagerDelegate> unauthorizedDelegate;
-@property (nonatomic, retain) IBOutlet id<PULPulsateBadgeDelegate> badgeDelegate;
+@property (nonnull, nonatomic, retain) IBOutlet id<PULPulsateUnauthorizedManagerDelegate> unauthorizedDelegate;
+@property (nonnull, nonatomic, retain) IBOutlet id<PULPulsateBadgeDelegate> badgeDelegate;
 
-typedef void(^RequestListener)(BOOL success, NSError* error);
+typedef void(^RequestListener)(BOOL success, NSError* _Nullable error);
 typedef NS_ENUM(NSUInteger, PULUserGender){
     PULMale,
     PULFemale
@@ -39,8 +39,8 @@ typedef NS_ENUM(NSUInteger, PULPrivacyLevel){
  *  Starts Pulsate session lifecycle for given user (alias). If location and push were set as enabled it'll show the prompts to the user.
  *  Session starts when the app enters foreground and ends when it goes to background.
  */
--(void)startPulsateSessionForAlias:(nonnull NSString*)alias withListener:(nullable RequestListener)listener;
--(void)logout:(RequestListener)listener;
+-(void)startPulsateSessionForAlias:(nonnull NSString*)alias withListener:(nonnull RequestListener)listener;
+-(void)logout:(nonnull RequestListener)listener;
 
 /**
  *  Returns the Device Guid that Pulsate uses to identify users.
@@ -264,6 +264,6 @@ typedef NS_ENUM(NSUInteger, PULPrivacyLevel){
  *  Shows the last in app notification. In App Notification need to be enabled.
  *  To enable in app notifications use enableInAppNotification(BOOL).
  */
--(id<UIApplicationDelegate, UNUserNotificationCenterDelegate>)getPulsateSystemManager;
+-(nonnull id<UIApplicationDelegate, UNUserNotificationCenterDelegate>)getPulsateSystemManager;
 
 @end

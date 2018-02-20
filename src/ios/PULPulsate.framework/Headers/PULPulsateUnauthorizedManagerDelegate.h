@@ -10,5 +10,5 @@
 
 @protocol PULPulsateUnauthorizedManagerDelegate
 @required
-    -(void)unauthorizedAction:(NSString*)action;
+    -(void)unauthorizedAction:(nonnull NSString*)action;
 @end

@@ -31,7 +31,7 @@
  *
  *  @return returns Pulsate Manager instance
  */
-+(PULPulsateManager*)getInstanceWithAuthorizationData:(PULAuthorizationData*)authorizationData withLocationEnabled:(BOOL)locationEnabled withPushEnabled:(BOOL)pushEnabled withLaunchOptions:(NSDictionary*)launchOptions withPulsateAppDelegate:(BOOL)isPulsateAppDelegate error:(NSError**)error;
++(PULPulsateManager*)getInstanceWithAuthorizationData:(PULAuthorizationData*)authorizationData withLocationEnabled:(BOOL)locationEnabled withPushEnabled:(BOOL)pushEnabled withLaunchOptions:(NSDictionary*)launchOptions withPulsateAppDelegate:(BOOL)isPulsateAppDelegate andPulsateNotificationDelegate:(BOOL)isPulsateNotificationDelegate error:(NSError**)error;
 
 /**
  *  Creates pulsate manager instance with given API keys. If an instance already exists
@@ -74,7 +74,7 @@
 /**
  *  Creates a PulsateManager instance with API Keys fetched from the config, location enabled and push enabled. If an instance already exists it returns it instead.
  *
- *  @return
+ *  @return returns Pulsate Manager instance
  */
 +(PULPulsateManager*)getInstanceWithLaunchOptions:(NSDictionary*)launchOptions error:(NSError**)error;
 

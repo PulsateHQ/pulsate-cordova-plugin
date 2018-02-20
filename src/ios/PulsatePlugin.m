@@ -14,9 +14,7 @@ static NSDictionary *launchOptions;
     
 - (void)finishLaunching:(NSNotification *)notification{
     launchOptions = notification.userInfo;
-    
 }
-
 
 - (void)unauthorizedAction:(NSString *)action {
     if(self.unauthorizedCallbackId){
@@ -177,10 +175,8 @@ static NSDictionary *launchOptions;
 }
     
 - (void)showFeed:(CDVInvokedUrlCommand *)command{
-    //[pulsateManager showFeed];
     UINavigationController* pulsateFeedNavController = [pulsateManager getFeedNavigationController];
     [self.viewController presentViewController:pulsateFeedNavController animated:YES completion:nil];
-    
 }
     
 - (void)createAttributeString:(CDVInvokedUrlCommand *)command{
@@ -213,12 +209,7 @@ static NSDictionary *launchOptions;
     NSNumber *attributeValue = [command argumentAtIndex:1];
     
     if(attributeName && attributeValue){
-        //NSDateFormatter *df = [[NSDateFormatter alloc] init];
-        //[df setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"UTC"]];
-        //[df setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"];
-        
         NSDate *formattedDate = [NSDate dateWithTimeIntervalSince1970:[attributeValue doubleValue] / 1000];
-        
         [pulsateManager createAttribute:attributeName withDate:formattedDate];
     }
 }
@@ -258,10 +249,11 @@ static NSDictionary *launchOptions;
     
     NSNumber *location = [command argumentAtIndex:2];
     NSNumber *push = [command argumentAtIndex:3];
-    NSNumber *delegate = [command argumentAtIndex:4];
+    NSNumber *app_delegate = [command argumentAtIndex:4];
+    NSNumber *notification_delegate = [command argumentAtIndex:5];
     
     if(!error)
-        pulsateManager = [PULPulsateFactory getInstanceWithAuthorizationData:data withLocationEnabled:[location boolValue] withPushEnabled:[push boolValue] withLaunchOptions:launchOptions withPulsateAppDelegate:[delegate boolValue] error:&error];
+    pulsateManager = [PULPulsateFactory getInstanceWithAuthorizationData:data withLocationEnabled:[location boolValue] withPushEnabled:[push boolValue] withLaunchOptions:launchOptions withPulsateAppDelegate:[app_delegate boolValue] andPulsateNotificationDelegate:[notification_delegate boolValue] error:&error];
     
     pulsateManager.unauthorizedDelegate = self;
     pulsateManager.badgeDelegate = self;
@@ -288,7 +280,6 @@ static NSDictionary *launchOptions;
     CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:guid];
     [result setKeepCallbackAsBool:YES];
     [self.commandDelegate sendPluginResult:result callbackId:self.guidCallbackId];
-    
 }
 
 - (void)getBadgeCount:(CDVInvokedUrlCommand *)command{

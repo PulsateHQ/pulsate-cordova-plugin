@@ -13,8 +13,8 @@ Pulsate.prototype.setAuthorizationData = function (APP_ID, APP_KEY, GCM_APP_ID) 
 	cordova.exec(null, null, "PulsatePlugin", "setAuthorizationData", [APP_ID, APP_KEY, GCM_APP_ID]);
 }
 
-Pulsate.prototype.setAuthorizationDataCustom = function (APP_ID, APP_KEY, PUSH, LOCATION, DELEGATE) {
-    cordova.exec(null, null, "PulsatePlugin", "setAuthorizationDataCustom", [APP_ID, APP_KEY, PUSH, LOCATION, DELEGATE]);
+Pulsate.prototype.setAuthorizationDataCustom = function (APP_ID, APP_KEY, PUSH, LOCATION, APP_DELEGATE, NOTIFICATION_DELEGATE) {
+	cordova.exec(null, null, "PulsatePlugin", "setAuthorizationDataCustom", [APP_ID, APP_KEY, PUSH, LOCATION, APP_DELEGATE, NOTIFICATION_DELEGATE]);
 }
 
 Pulsate.prototype.startPulsateSession = function (success, error) {
@@ -27,6 +27,10 @@ Pulsate.prototype.startPulsateSessionForAlias = function (alias, success, error)
 
 Pulsate.prototype.logout = function (success, error) {
 	cordova.exec(success, error, "PulsatePlugin", "logout", []);
+}
+
+Pulsate.prototype.setUnreadCountUpdateListener = function (success) {
+	cordova.exec(success, null, "PulsatePlugin", "setUnreadCountUpdateListener", []);
 }
 
 Pulsate.prototype.setUserAuthorized = function (authorized) {

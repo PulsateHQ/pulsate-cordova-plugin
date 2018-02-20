@@ -16,7 +16,6 @@ import java.util.Date;
 
 public class PulsatePlugin extends CordovaPlugin {
     
-    
     @Override
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
         super.initialize(cordova, webView);
@@ -24,9 +23,7 @@ public class PulsatePlugin extends CordovaPlugin {
     
     @Override
     public boolean execute(String action, JSONArray args, final CallbackContext callbackContext) throws JSONException {
-        
         IPulsateManager manager = ((MyApplication) this.cordova.getActivity().getApplication()).getPulsate();
-        
         if (action.equals("startPulsateSession")) {
             manager.startPulsateSession(new IPulsateRequestListener() {
                 @Override
@@ -63,6 +60,16 @@ public class PulsatePlugin extends CordovaPlugin {
                 @Override
                 public void onError(Throwable e) {
                     callbackContext.error(e.getMessage());
+                }
+            });
+            return true;
+        } else if (action.equals("setUnreadCountUpdateListener")) {
+            manager.setUnreadCountUpdateListener(new IPulsateUnreadCountUpdateListener() {
+                @Override
+                public void onUnreadCountUpdate(int unread) {
+                    PluginResult result = new PluginResult(PluginResult.Status.OK, unread);
+                    result.setKeepCallback(true);
+                    callbackContext.sendPluginResult(result);
                 }
             });
             return true;
@@ -203,9 +210,6 @@ public class PulsatePlugin extends CordovaPlugin {
             callbackContext.success();
             return true;
         }
-    
-        
         return false;
     }
-    
 }

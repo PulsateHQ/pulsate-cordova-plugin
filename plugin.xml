@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" id="pulsatehq.PULPulsate"  xmlns:android="http://schemas.android.com/apk/res/android" version="1.1.0">
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" id="pulsatehq.PULPulsate"  xmlns:android="http://schemas.android.com/apk/res/android" version="1.2.0">
     <name>Pulsate</name>
     <description>Pulsate Plugin</description>
     <license>Apache 2.0</license>
@@ -9,8 +9,6 @@
         <clobbers target="Pulsate" />
     </js-module>
     
-
-
     <platform name="ios">
 
         <config-file target="config.xml" parent="/*">
@@ -30,9 +28,6 @@
             <string>Location access is required for this app to work properly.</string>
         </config-file>
         
-        
-        
-        
         <config-file target="*-Debug.plist" parent="aps-environment">
             <string>development</string>
         </config-file>
@@ -42,7 +37,6 @@
         
         <framework src="src/ios/PULPulsate.framework" custom="true"/>
         <resource-file src="src/ios/PULPulsateBasic.bundle"/>
-        
         
         <header-file src="src/ios/PulsatePlugin.h" />
         <source-file src="src/ios/PulsatePlugin.m" />
@@ -56,9 +50,6 @@
     </platform>
     
     <platform name="android">
-        
-        
-        
         <config-file target="config.xml" parent="/*">
             <feature name="PulsatePlugin" >
                 <param name="android-package" value="com.pulsatehq.cordova.PulsatePlugin"/>
@@ -75,15 +66,11 @@
             <uses-permission android:name="android.permission.VIBRATE" />
             <uses-permission android:name="android.permission.BLUETOOTH" />
             <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-            <uses-permission android:name="android.permission.READ_LOGS" />
-            <!-- Only For development, can be removed when releasing to appstore -->
-            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
             
-            <!-- change com.example.demo to your app package name -->
-            <uses-permission android:name="com.example.demo.permission.C2D_MESSAGE" />
+            <uses-permission android:name="${applicationId}.permission.C2D_MESSAGE" />
             
-            <!-- change com.example.demo to your app package name -->
-            <permission android:name="com.example.demo.permission.C2D_MESSAGE"
+            <permission
+            android:name="${applicationId}.permission.C2D_MESSAGE"
             android:protectionLevel="signature" />
 
         </config-file>
@@ -91,9 +78,7 @@
         <hook type="after_plugin_add" src="src/android/app_name.js" />
 
         <framework src="com.android.support:multidex:1.0.1" />
-        <framework src="com.pulsatehq.sdk:PulsateSdk:2.10.0" />
-
-
+        <framework src="com.pulsatehq.sdk:PulsateSdk:2.12.0" />
 
         <source-file src="src/android/PulsatePlugin.java" target-dir="src/com/pulsatehq/cordova/" />
         <source-file src="src/android/MyApplication.java" target-dir="src/com/pulsatehq/cordova/" />

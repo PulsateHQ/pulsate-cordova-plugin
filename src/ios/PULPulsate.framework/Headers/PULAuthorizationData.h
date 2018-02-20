@@ -16,9 +16,9 @@
 /**
  *  Creates and validates the authorization data.
  *
- *  @param pAppId
- *  @param pAppKey
- *  @param Validation error. Nil if no error ocurred.
+ *  @param pAppId - APP ID from the Pulsate CMS
+ *  @param pAppKey - APP KEY from the Pulsate CMS
+ *  @param error - returns an error if PULAuthorizationData init fails. Nil if no error ocurred.
  *
  *  @return instancetype
  */
