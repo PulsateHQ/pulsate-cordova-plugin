@@ -1,15 +1,18 @@
 package com.pulsatehq.cordova;
 
-import com.pulsatehq.external.pulsate.listener.IPulsateLogoutCurrentUserListener;
+import com.pulsatehq.external.pulsate.listener.IPulsateRequestListener;
+import com.pulsatehq.external.pulsate.listener.IPulsateUnreadCountUpdateListener;
 import com.pulsatehq.external.pulsate.manager.IPulsateManager;
 import com.pulsatehq.internal.util.AuthorizationData;
 
-import org.apache.cordova.CordovaInterface;
-import org.apache.cordova.CordovaWebView;
-import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CallbackContext;
+import org.apache.cordova.CordovaInterface;
+import org.apache.cordova.CordovaPlugin;
+import org.apache.cordova.CordovaWebView;
+import org.apache.cordova.PluginResult;
 import org.json.JSONArray;
 import org.json.JSONException;
+
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -202,7 +205,7 @@ public class PulsatePlugin extends CordovaPlugin {
             callbackContext.success();
             return true;
         } else if (action.equals("disablePushNotification")) {
-            manager.disablePushNotification(args.getBoolean(0));
+            manager.disablePushNotication(args.getBoolean(0));
             callbackContext.success();
             return true;
         }else if (action.equals("showLastInAppNotification")) {
