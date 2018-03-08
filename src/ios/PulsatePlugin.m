@@ -265,7 +265,7 @@ static NSDictionary *launchOptions;
     NSError *error;
     PULAuthorizationData *data = [[PULAuthorizationData alloc] initWithAppId:[command argumentAtIndex:0] andAppKey:[command argumentAtIndex:1]  validationError:&error];
     if(!error)
-        pulsateManager = [PULPulsateFactory getInstanceWithAuthorizationData:data withLocationEnabled:YES withPushEnabled:YES withLaunchOptions:launchOptions withPulsateAppDelegate:YES error:&error];
+        pulsateManager = [PULPulsateFactory getInstanceWithAuthorizationData:data withLocationEnabled:YES withPushEnabled:YES withLaunchOptions:launchOptions withPulsateAppDelegate:YES andPulsateNotificationDelegate:YES error:&error];
     
     pulsateManager.unauthorizedDelegate = self;
     pulsateManager.badgeDelegate = self;
