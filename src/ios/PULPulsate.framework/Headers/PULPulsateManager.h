@@ -1,6 +1,6 @@
 //
 //  PULPulsateManager.h
-//  PULPulsate 2.13.0
+//  PULPulsate 2.14.1
 //
 //  Created by Michal on 04/12/2014.
 //  Copyright (c) 2014 Pulsatehq. All rights reserved.
@@ -35,11 +35,16 @@ typedef NS_ENUM(NSUInteger, PULPrivacyLevel){
  *  Session starts when the app enters foreground and ends when it goes to background.
  */
 -(void)startPulsateSession:(nullable RequestListener)listener;
+
 /**
  *  Starts Pulsate session lifecycle for given user (alias). If location and push were set as enabled it'll show the prompts to the user.
  *  Session starts when the app enters foreground and ends when it goes to background.
  */
 -(void)startPulsateSessionForAlias:(nonnull NSString*)alias withListener:(nonnull RequestListener)listener;
+
+/**
+ * Logs out the current user
+ */
 -(void)logout:(nonnull RequestListener)listener;
 
 /**
@@ -87,7 +92,9 @@ typedef NS_ENUM(NSUInteger, PULPrivacyLevel){
  *
  *  @param disable user's push notification preference
  */
--(void)disablePushNotification:(BOOL)disable;
+-(void)setPushNotificationEnabled:(BOOL)enabled;
+
+-(BOOL)isPushNotificationEnabled;
 
 /**
  *  Sets user's privacy settings.
@@ -219,9 +226,14 @@ typedef NS_ENUM(NSUInteger, PULPrivacyLevel){
 
 /**
  *  Decides if beacon actions should be sent with a location. The default is NO.
- *
  */
 -(void)sendLocationWithBeaconEvents:(BOOL)sendLocation;
+
+/**
+ * Enables or Disables the Geofencing and Beacon Scanning.
+ * By default enabled.
+ */
+-(void)setLocationUpdatesEnabled:(BOOL)enabled;
 
 /**
  * 
@@ -231,20 +243,17 @@ typedef NS_ENUM(NSUInteger, PULPrivacyLevel){
 
 /**
  *  Enables or Disables In-App Notifications. Default - YES.
- *
  */
 -(void)enableInAppNotification:(BOOL)enabled;
 
 /**
  *  Set if user is authorized or not. The default is YES.
- *
  */
 -(void)setUserAuthorized:(BOOL)authorized;
 
 /**
  *  Sends a request to the server to get the Pulsate badge count.
  *  The badge count will be returned in the PULPulsateBadgeDelegate badgeUpdated callback.
- *
  */
 -(void)getBadgeCount;
 
