@@ -1,5 +1,3 @@
-cordova.define("pulsatehq.PULPulsate.Pulsate", function(require, exports, module)
-
 
 var Pulsate = function () {
 }
