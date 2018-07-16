@@ -159,6 +159,3 @@ Pulsate.prototype.onBadgeIncrementBy = function (result) {
 
 
 module.exports = new Pulsate();
-
-
-});
