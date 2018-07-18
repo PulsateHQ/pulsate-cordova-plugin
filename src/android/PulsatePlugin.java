@@ -76,7 +76,7 @@ public class PulsatePlugin extends CordovaPlugin {
                 manager.setLocationUpdatesEnabled(args.getBoolean(0));
                 callbackContext.success();
                 return true;
-            case "setInAppNotificationEnabled":
+            case "enableInAppNotification":
                 manager.setInAppNotificationEnabled(args.getBoolean(0));
                 callbackContext.success();
                 return true;

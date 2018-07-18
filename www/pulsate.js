@@ -132,7 +132,6 @@ Pulsate.prototype.showLastUnauthorizedMessage = function () {
 	cordova.exec(null, null, "PulsatePlugin", "showLastUnauthorizedMessage", []);
 }
 
-               
 Pulsate.prototype.setUnreadCountUpdateListener = function (success) {
     cordova.exec(success, null, "PulsatePlugin", "setUnreadCountUpdateListener", []);
 }
