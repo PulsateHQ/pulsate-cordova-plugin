@@ -1,6 +1,6 @@
 //
 //  PULPulsateManager.h
-//  PULPulsate 2.14.1
+//  PULPulsate 2.14.14
 //
 //  Created by Michal on 04/12/2014.
 //  Copyright (c) 2014 Pulsatehq. All rights reserved.
@@ -86,6 +86,23 @@ typedef NS_ENUM(NSUInteger, PULPrivacyLevel){
  *  @param gender user's gender
  */
 -(void)updateGender:(PULUserGender)gender;
+
+/**
+ * Enables or Disables using the user initials as the user avatar.
+ * When disabled the avatar will always be an anon icon.
+ * By default enabled
+ *
+ * @param useInitials
+ */
+-(void)useInitialsForUserAvatar:(BOOL)useInitials;
+
+/**
+ * Developers can now add an additional button in the Pulsate Feed. The button will appear in the main Feed Toolbar in the right corner.
+ * To add this button you need to call the new setInboxRightButton method and pass an UIBarButtonItem that you want to show. This should be
+ * done in the AppDelegate under didFinishLaunchingWithOptions.
+ * @param rightButton
+ */
+-(void)setInboxRightButton:(UIBarButtonItem*)rightButton;
 
 /**
  *  Disables or Enables push notifications for Pulsate
@@ -245,6 +262,8 @@ typedef NS_ENUM(NSUInteger, PULPrivacyLevel){
  *  Enables or Disables In-App Notifications. Default - YES.
  */
 -(void)enableInAppNotification:(BOOL)enabled;
+
+-(void)setSmallInAppNotificationDuration:(NSInteger)seconds;
 
 /**
  *  Set if user is authorized or not. The default is YES.
