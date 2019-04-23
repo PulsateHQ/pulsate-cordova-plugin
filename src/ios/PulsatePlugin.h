@@ -13,44 +13,43 @@
 @property (nonatomic, strong) NSString* badgeIncrementByCallbackId;
 
 
-- (void)setAuthorizationData:(CDVInvokedUrlCommand *)command;
-- (void)setAuthorizationDataCustom:(CDVInvokedUrlCommand *)command;
+- (void)setAuthData:(CDVInvokedUrlCommand *)command;
 - (void)startPulsateSession:(CDVInvokedUrlCommand *)command;
 - (void)startPulsateSessionForAlias:(CDVInvokedUrlCommand *)command;
 - (void)logout:(CDVInvokedUrlCommand *)command;
-- (void)getDeviceGuid:(CDVInvokedUrlCommand *)command;
-- (void)updateFirstName:(CDVInvokedUrlCommand *)command;
-- (void)updateLastName:(CDVInvokedUrlCommand *)command;
-- (void)updateEmail:(CDVInvokedUrlCommand *)command;
-- (void)updateAge:(CDVInvokedUrlCommand *)command;
-- (void)updateGender:(CDVInvokedUrlCommand *)command;
-- (void)setPushNotificationEnabled:(CDVInvokedUrlCommand *)command;
-- (void)setPrivacy:(CDVInvokedUrlCommand *)command;
-- (void)createAttributeString:(CDVInvokedUrlCommand *)command;
-- (void)createAttributeInt:(CDVInvokedUrlCommand *)command;
-- (void)createAttributeFloat:(CDVInvokedUrlCommand *)command;
-- (void)createAttributeBool:(CDVInvokedUrlCommand *)command;
-- (void)createAttributeDate:(CDVInvokedUrlCommand *)command;
-- (void)incrementCounter:(CDVInvokedUrlCommand *)command;
-- (void)decrementCounter:(CDVInvokedUrlCommand *)command;
-- (void)showFeed:(CDVInvokedUrlCommand *)command;
-- (void)createEvent:(CDVInvokedUrlCommand *)command;
-- (void)createEvents:(CDVInvokedUrlCommand *)command;
-- (void)forceAttributeSync:(CDVInvokedUrlCommand *)command;
 - (void)setNewThreadButtonEnabled:(CDVInvokedUrlCommand *)command;
 - (void)sendLocationWithBeaconEvents:(CDVInvokedUrlCommand *)command;
 - (void)setLocationUpdatesEnabled:(CDVInvokedUrlCommand *)command;
-- (void)enableInAppNotification:(CDVInvokedUrlCommand *)command;
-- (void)setUserAuthorized:(CDVInvokedUrlCommand *)command;
+- (void)setInAppNotificationEnabled:(CDVInvokedUrlCommand *)command;
 - (void)showLastInAppNotification:(CDVInvokedUrlCommand *)command;
+- (void)setPushNotificationEnabled:(CDVInvokedUrlCommand *)command;
+- (void)setUserAuthorized:(CDVInvokedUrlCommand *)command;
 - (void)showLastUnauthorizedMessage:(CDVInvokedUrlCommand *)command;
+- (void)updateFirstName:(CDVInvokedUrlCommand *)command;
+- (void)updateLastName:(CDVInvokedUrlCommand *)command;
+- (void)updateEmail:(CDVInvokedUrlCommand *)command;
+- (void)updateGender:(CDVInvokedUrlCommand *)command;
+- (void)updateAge:(CDVInvokedUrlCommand *)command;
+- (void)setPrivacy:(CDVInvokedUrlCommand *)command;
+- (void)createAttributeWithString:(CDVInvokedUrlCommand *)command;
+- (void)createAttributeWithFloat:(CDVInvokedUrlCommand *)command;
+- (void)createAttributeWithInt:(CDVInvokedUrlCommand *)command;
+- (void)createAttributeWithBool:(CDVInvokedUrlCommand *)command;
+- (void)createAttributeWithDate:(CDVInvokedUrlCommand *)command;
+- (void)incrementCounter:(CDVInvokedUrlCommand *)command;
+- (void)decrementCounter:(CDVInvokedUrlCommand *)command;
+- (void)createEvent:(CDVInvokedUrlCommand *)command;
+- (void)forceAttributeSync:(CDVInvokedUrlCommand *)command;
+- (void)showFeed:(CDVInvokedUrlCommand *)command;
+- (void)useInitialsForUserAvatar:(CDVInvokedUrlCommand *)command;
+- (void)setSmallInAppNotificationDuration:(CDVInvokedUrlCommand *)command;
 
-- (void)getBadgeCount:(CDVInvokedUrlCommand *)command;
-- (void)onUnauthorizedAction:(CDVInvokedUrlCommand *)command;
-- (void)onBadgeUpdated:(CDVInvokedUrlCommand *)command;
-- (void)onBadgeDecrementBy:(CDVInvokedUrlCommand *)command;
-- (void)onBadgeIncrementBy:(CDVInvokedUrlCommand *)command;
-
-
+- (void)setAuthDataIOS:(CDVInvokedUrlCommand *)command;
+- (void)getDeviceGuidIOS:(CDVInvokedUrlCommand *)command;
+- (void)getBadgeCountIOS:(CDVInvokedUrlCommand *)command;
+- (void)onUnauthorizedActionIOS:(CDVInvokedUrlCommand *)command;
+- (void)onBadgeUpdatedIOS:(CDVInvokedUrlCommand *)command;
+- (void)onBadgeDecrementByIOS:(CDVInvokedUrlCommand *)command;
+- (void)onBadgeIncrementByIOS:(CDVInvokedUrlCommand *)command;
 
 @end

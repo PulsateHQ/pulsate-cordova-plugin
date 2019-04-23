@@ -62,23 +62,15 @@
             <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
             <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
             <uses-permission android:name="android.permission.WAKE_LOCK" />
-            <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
             <uses-permission android:name="android.permission.VIBRATE" />
             <uses-permission android:name="android.permission.BLUETOOTH" />
             <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-            
-            <uses-permission android:name="${applicationId}.permission.C2D_MESSAGE" />
-            
-            <permission
-            android:name="${applicationId}.permission.C2D_MESSAGE"
-            android:protectionLevel="signature" />
-            
         </config-file>
         
         <hook type="after_plugin_add" src="src/android/app_name.js" />
         
         <framework src="com.android.support:multidex:1.0.3" />
-        <framework src="com.pulsatehq.sdk:PulsateSdk:2.13.0" />
+        <framework src="com.pulsatehq.sdk:PulsateSdk:2.14.2" />
         
         <source-file src="src/android/PulsatePlugin.java" target-dir="src/com/pulsatehq/cordova/" />
         <source-file src="src/android/MyApplication.java" target-dir="src/com/pulsatehq/cordova/" />

@@ -16,25 +16,7 @@ static NSDictionary *launchOptions;
     launchOptions = notification.userInfo;
 }
 
-- (void)setAuthorizationDataCustom:(CDVInvokedUrlCommand *)command{
-    NSError *error;
-    PULAuthorizationData *data = [[PULAuthorizationData alloc] initWithAppId:[command argumentAtIndex:0] andAppKey:[command argumentAtIndex:1]  validationError:&error];
-    
-    NSNumber *location = [command argumentAtIndex:2];
-    NSNumber *push = [command argumentAtIndex:3];
-    NSNumber *app_delegate = [command argumentAtIndex:4];
-    NSNumber *notification_delegate = [command argumentAtIndex:5];
-    
-    if(!error)
-        pulsateManager = [PULPulsateFactory getInstanceWithAuthorizationData:data withLocationEnabled:[location boolValue] withPushEnabled:[push boolValue] withLaunchOptions:launchOptions withPulsateAppDelegate:[app_delegate boolValue] andPulsateNotificationDelegate:[notification_delegate boolValue] error:&error];
-    
-    pulsateManager.unauthorizedDelegate = self;
-    pulsateManager.badgeDelegate = self;
-    
-    launchOptions = nil;
-}
-
-- (void)setAuthorizationData:(CDVInvokedUrlCommand *)command{
+- (void)setAuthData:(CDVInvokedUrlCommand *)command{
     NSError *error;
     PULAuthorizationData *data = [[PULAuthorizationData alloc] initWithAppId:[command argumentAtIndex:0] andAppKey:[command argumentAtIndex:1]  validationError:&error];
     if(!error)
@@ -103,13 +85,49 @@ static NSDictionary *launchOptions;
     }];
 }
 
-- (void)getDeviceGuid:(CDVInvokedUrlCommand *)command{
-    self.guidCallbackId = command.callbackId;
-    NSString *guid = [pulsateManager getDeviceGuid];
-    
-    CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:guid];
-    [result setKeepCallbackAsBool:YES];
-    [self.commandDelegate sendPluginResult:result callbackId:self.guidCallbackId];
+- (void)setNewThreadButtonEnabled:(CDVInvokedUrlCommand *)command{
+    NSNumber *enabled = [command argumentAtIndex:0];
+    if(enabled)
+        [pulsateManager setNewThreadButtonEnabled:[enabled boolValue]];
+}
+
+- (void)sendLocationWithBeaconEvents:(CDVInvokedUrlCommand *)command{
+    NSNumber *enabled = [command argumentAtIndex:0];
+    if(enabled)
+        [pulsateManager sendLocationWithBeaconEvents:[enabled boolValue]];
+}
+
+- (void)setLocationUpdatesEnabled:(CDVInvokedUrlCommand *)command{
+    NSNumber *enabled = [command argumentAtIndex:0];
+    if(enabled)
+        [pulsateManager setLocationUpdatesEnabled:[enabled boolValue]];
+}
+
+
+- (void)setInAppNotificationEnabled:(CDVInvokedUrlCommand *)command{
+    NSNumber *enabled = [command argumentAtIndex:0];
+    if(enabled)
+        [pulsateManager enableInAppNotification:[enabled boolValue]];
+}
+
+- (void)showLastInAppNotification:(CDVInvokedUrlCommand *)command{
+    [pulsateManager showLastInAppNotification];
+}
+
+- (void)setPushNotificationEnabled:(CDVInvokedUrlCommand *)command{
+    NSNumber *enabled = [command argumentAtIndex:0];
+    if(enabled)
+        [pulsateManager setPushNotificationEnabled:[enabled boolValue]];
+}
+
+- (void)setUserAuthorized:(CDVInvokedUrlCommand *)command{
+    NSNumber *authorized = [command argumentAtIndex:0];
+    if(authorized)
+        [pulsateManager setUserAuthorized:[authorized boolValue]];
+}
+
+- (void)showLastUnauthorizedMessage:(CDVInvokedUrlCommand *)command{
+    [pulsateManager showLastUnauthorizedMessage];
 }
 
 - (void)updateFirstName:(CDVInvokedUrlCommand *)command{
@@ -130,22 +148,16 @@ static NSDictionary *launchOptions;
         [pulsateManager updateEmail:email];
 }
 
-- (void)updateAge:(CDVInvokedUrlCommand *)command{
-    NSNumber *age = [command argumentAtIndex:0];
-    if(age)
-        [pulsateManager updateAge:[age intValue]];
-}
-
 - (void)updateGender:(CDVInvokedUrlCommand *)command{
     NSNumber *gender = [command argumentAtIndex:0];
     if(gender)
         [pulsateManager updateGender:[gender intValue]];
 }
 
-- (void)setPushNotificationEnabled:(CDVInvokedUrlCommand *)command{
-    NSNumber *enabled = [command argumentAtIndex:0];
-    if(enabled)
-        [pulsateManager setPushNotificationEnabled:[enabled boolValue]];
+- (void)updateAge:(CDVInvokedUrlCommand *)command{
+    NSNumber *age = [command argumentAtIndex:0];
+    if(age)
+        [pulsateManager updateAge:[age intValue]];
 }
 
 - (void)setPrivacy:(CDVInvokedUrlCommand *)command{
@@ -154,32 +166,35 @@ static NSDictionary *launchOptions;
         [pulsateManager setPrivacy:[privacy intValue]];
 }
 
-- (void)createAttributeString:(CDVInvokedUrlCommand *)command{
+- (void)createAttributeWithString:(CDVInvokedUrlCommand *)command{
     NSString *attributeName = [command argumentAtIndex:0];
     NSString *attributeValue = [command argumentAtIndex:1];
     if(attributeName && attributeValue)
         [pulsateManager createAttribute:attributeName withString:attributeValue];
 }
-- (void)createAttributeInt:(CDVInvokedUrlCommand *)command{
-    NSString *attributeName = [command argumentAtIndex:0];
-    NSNumber *attributeValue = [command argumentAtIndex:1];
-    if(attributeName && attributeValue)
-        [pulsateManager createAttribute:attributeName withInteger:[attributeValue intValue]];
-}
-- (void)createAttributeFloat:(CDVInvokedUrlCommand *)command{
+
+- (void)createAttributeWithFloat:(CDVInvokedUrlCommand *)command{
     NSString *attributeName = [command argumentAtIndex:0];
     NSNumber *attributeValue = [command argumentAtIndex:1];
     if(attributeName && attributeValue)
         [pulsateManager createAttribute:attributeName withFloat:[attributeValue floatValue]];
 }
-- (void)createAttributeBool:(CDVInvokedUrlCommand *)command{
+
+- (void)createAttributeWithInt:(CDVInvokedUrlCommand *)command{
+    NSString *attributeName = [command argumentAtIndex:0];
+    NSNumber *attributeValue = [command argumentAtIndex:1];
+    if(attributeName && attributeValue)
+        [pulsateManager createAttribute:attributeName withInteger:[attributeValue intValue]];
+}
+
+- (void)createAttributeWithBool:(CDVInvokedUrlCommand *)command{
     NSString *attributeName = [command argumentAtIndex:0];
     NSNumber *attributeValue = [command argumentAtIndex:1];
     if(attributeName && attributeValue)
         [pulsateManager createAttribute:attributeName withBoolean:[attributeValue boolValue]];
 }
 
-- (void)createAttributeDate:(CDVInvokedUrlCommand *)command{
+- (void)createAttributeWithDate:(CDVInvokedUrlCommand *)command{
     NSString *attributeName = [command argumentAtIndex:0];
     NSNumber *attributeValue = [command argumentAtIndex:1];
     
@@ -211,82 +226,77 @@ static NSDictionary *launchOptions;
     }
 }
 
-- (void)showFeed:(CDVInvokedUrlCommand *)command{
-    UINavigationController* pulsateFeedNavController = [pulsateManager getFeedNavigationController];
-    [self.viewController presentViewController:pulsateFeedNavController animated:YES completion:nil];
-}
-
 - (void)createEvent:(CDVInvokedUrlCommand *)command{
     NSString *event = [command argumentAtIndex:0];
     if(event)
         [pulsateManager createEvent:event];
 }
 
-- (void)createEvents:(CDVInvokedUrlCommand *)command{
-    NSArray *events = [command arguments];
-    if(events && events.count)
-        for(NSString *event in events)
-            [pulsateManager createEvent:event];
-}
-
 - (void)forceAttributeSync:(CDVInvokedUrlCommand *)command{
     [pulsateManager forceAttributeSync];
 }
 
-- (void)setNewThreadButtonEnabled:(CDVInvokedUrlCommand *)command{
-    NSNumber *enabled = [command argumentAtIndex:0];
-    if(enabled)
-        [pulsateManager setNewThreadButtonEnabled:[enabled boolValue]];
+- (void)showFeed:(CDVInvokedUrlCommand *)command{
+    UINavigationController* pulsateFeedNavController = [pulsateManager getFeedNavigationController];
+    [self.viewController presentViewController:pulsateFeedNavController animated:YES completion:nil];
 }
 
-- (void)sendLocationWithBeaconEvents:(CDVInvokedUrlCommand *)command{
-    NSNumber *enabled = [command argumentAtIndex:0];
-    if(enabled)
-        [pulsateManager sendLocationWithBeaconEvents:[enabled boolValue]];
+- (void)useInitialsForUserAvatar:(CDVInvokedUrlCommand *)command{
+    NSNumber *useInitials = [command argumentAtIndex:0];
+    if(useInitials)
+        [pulsateManager useInitialsForUserAvatar:[useInitials boolValue]];
 }
 
-- (void)setLocationUpdatesEnabled:(CDVInvokedUrlCommand *)command{
-    NSNumber *enabled = [command argumentAtIndex:0];
-    if(enabled)
-        [pulsateManager setLocationUpdatesEnabled:[enabled boolValue]];
+- (void)setSmallInAppNotificationDuration:(CDVInvokedUrlCommand *)command{
+    NSNumber *duration = [command argumentAtIndex:0];
+    if(duration)
+        [pulsateManager useInitialsForUserAvatar:[duration intValue]];
 }
 
-- (void)enableInAppNotification:(CDVInvokedUrlCommand *)command{
-    NSNumber *enabled = [command argumentAtIndex:0];
-    if(enabled)
-        [pulsateManager enableInAppNotification:[enabled boolValue]];
+- (void)setAuthDataIOS:(CDVInvokedUrlCommand *)command{
+    NSError *error;
+    PULAuthorizationData *data = [[PULAuthorizationData alloc] initWithAppId:[command argumentAtIndex:0] andAppKey:[command argumentAtIndex:1]  validationError:&error];
+    
+    NSNumber *location = [command argumentAtIndex:2];
+    NSNumber *push = [command argumentAtIndex:3];
+    NSNumber *app_delegate = [command argumentAtIndex:4];
+    NSNumber *notification_delegate = [command argumentAtIndex:5];
+    
+    if(!error)
+        pulsateManager = [PULPulsateFactory getInstanceWithAuthorizationData:data withLocationEnabled:[location boolValue] withPushEnabled:[push boolValue] withLaunchOptions:launchOptions withPulsateAppDelegate:[app_delegate boolValue] andPulsateNotificationDelegate:[notification_delegate boolValue] error:&error];
+    
+    pulsateManager.unauthorizedDelegate = self;
+    pulsateManager.badgeDelegate = self;
+    
+    launchOptions = nil;
 }
 
-- (void)setUserAuthorized:(CDVInvokedUrlCommand *)command{
-    NSNumber *authorized = [command argumentAtIndex:0];
-    if(authorized)
-        [pulsateManager setUserAuthorized:[authorized boolValue]];
-}
-- (void)showLastInAppNotification:(CDVInvokedUrlCommand *)command{
-    [pulsateManager showLastInAppNotification];
-}
-
-- (void)showLastUnauthorizedMessage:(CDVInvokedUrlCommand *)command{
-    [pulsateManager showLastUnauthorizedMessage];
+- (void)getDeviceGuidIOS:(CDVInvokedUrlCommand *)command{
+    self.guidCallbackId = command.callbackId;
+    NSString *guid = [pulsateManager getDeviceGuid];
+    
+    CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:guid];
+    [result setKeepCallbackAsBool:YES];
+    [self.commandDelegate sendPluginResult:result callbackId:self.guidCallbackId];
 }
 
-- (void)getBadgeCount:(CDVInvokedUrlCommand *)command{
+- (void)getBadgeCountIOS:(CDVInvokedUrlCommand *)command{
     [pulsateManager getBadgeCount];
 }
 
-- (void)onUnauthorizedAction:(CDVInvokedUrlCommand *)command{
+- (void)onUnauthorizedActionIOS:(CDVInvokedUrlCommand *)command{
     self.unauthorizedCallbackId = command.callbackId;
 }
 
-- (void)onBadgeUpdated:(CDVInvokedUrlCommand *)command{
+- (void)onBadgeUpdatedIOS:(CDVInvokedUrlCommand *)command{
     self.badgeUpdatedCallbackId = command.callbackId;
 }
 
-- (void)onBadgeDecrementBy:(CDVInvokedUrlCommand *)command{
+- (void)onBadgeDecrementByIOS:(CDVInvokedUrlCommand *)command{
     self.badgeDecrementByCallbackId = command.callbackId;
 }
 
-- (void)onBadgeIncrementBy:(CDVInvokedUrlCommand *)command{
+- (void)onBadgeIncrementByIOS:(CDVInvokedUrlCommand *)command{
     self.badgeIncrementByCallbackId = command.callbackId;
 }
 
